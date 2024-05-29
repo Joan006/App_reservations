@@ -18,19 +18,21 @@ st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
 # Diseño de la pagina
 st.image("assets/padel.jpeg")
 st.title("Club de padel")
-st.text("Direccion del establecimiento")
+st.text("# Direccion del establecimiento #")
 
 selected = option_menu(menu_title=None, options=["Reservar", "Pistas", "Detalles"], icons=["calendar-date", "building", "clipboard-minus"], orientation="horizontal")
 
 
 if selected == "Detalles":
-    st.image("assets/maps.jpg")
-    st.markdown("Pulsa [aqui](https://www.google.com.mx/maps/@19.5178532,-99.1753269,16.87z?entry=ttu) para ver la direccion ")
+
+    st.subheader("Ubicacion")
+    st.markdown("""<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1145.4788238030683!2d-99.17488306338723!3d19.51721351227803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2smx!4v1716911385713!5m2!1ses!2smx" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>""", unsafe_allow_html=True)
+
 
     st.subheader("Horarios")
     dia, hora = st.columns(2)
     dia.text("Lunes")
-    hora.text("10:00 - 19:00")
+    hora.text("10:00 - 19:00"):q
     dia.text("Martes")
     hora.text("10:00 - 19:00")
     dia.text("Miercoles")
