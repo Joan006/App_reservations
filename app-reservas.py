@@ -1,6 +1,7 @@
 import streamlit as st
 from streamlit_option_menu import option_menu
-
+from send_email import send
+import re
 
 # Variables
 page_title = "Club de padel"
@@ -10,7 +11,15 @@ layout = "centered"
 horas = ["12:00", "17:00", "18:00"]
 pistas = ["Pista 1", "Pista2"]
 
+# Funciones
+def validate_email(email):
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
+    # Usa re.match para verificar si el email coincide con el patrón
+    if re.match(pattern, email):
+        return True
+    else:
+        return False
 
 st.set_page_config(page_title=page_title, page_icon=page_icon, layout=layout)
 
@@ -32,7 +41,7 @@ if selected == "Detalles":
     st.subheader("Horarios")
     dia, hora = st.columns(2)
     dia.text("Lunes")
-    hora.text("10:00 - 19:00"):q
+    hora.text("10:00 - 19:00")
     dia.text("Martes")
     hora.text("10:00 - 19:00")
     dia.text("Miercoles")
@@ -69,5 +78,10 @@ else:
             st.warning("El nombre es oblogatorio")
         elif email == "":
             st.warning("El correo es oblogatorio")
+        elif not validate_email(email):
+            st.warning("El email no es valido")
         else:
+
+            # Realizamos envio correo de confirmacion
+            send(email, nombre, fecha, hora, pista)
             st.success("Su pista ha sido reservada exitosamente.")

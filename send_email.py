@@ -4,10 +4,12 @@ from email.mime.multipart import MIMEMultipart
 import streamlit as st
 
 
-def send_email(email, nombre, fecha, hora, pista, nota, sender_email):
+def send(email, nombre, fecha, hora, pista):
     # Credenciales
     user = st.secrets["smtp_user"]
     password = st.secrets["smtp_password"]
+
+    sender_email = "Club de padel"
     # config. Servidor
     msg = MIMEMultipart()
 
@@ -32,7 +34,11 @@ def send_email(email, nombre, fecha, hora, pista, nota, sender_email):
     msg.attach(MIMEText(message, "plain"))
 
     # conexion al servidor
-
     try:
         server = smtplib.SMTP(smtp_server, smtp_port)
         server.starttls()
+        server.login(user, password)
+        server.sendmail(sender_email, email, msg.as_string())
+
+    except smtplib.SMTPException as e:
+        st.exception("Error al enviar un mensaje")
