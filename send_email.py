@@ -6,8 +6,8 @@ import streamlit as st
 
 def send(email, nombre, fecha, hora, pista):
     # Credenciales
-    user = st.secrets["smtp_user"]
-    password = st.secrets["smtp_password"]
+    user = st.secrets["emails"]["smtp_user"]
+    password = st.secrets["emails"]["smtp_password"]
 
     sender_email = "Club de padel"
     # config. Servidor
