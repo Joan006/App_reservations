@@ -10,12 +10,12 @@ page_title = "Club de padel"
 page_icon = "🎾"
 layout = "centered"
 
-horas = ["12:00", "17:00", "18:00"]
+horas = ["9:00", "10:30", "12:00", "15:00", "17:00", "18:00", "19:30", "21:00"]
 pistas = ["Pista 1", "Pista2"]
 
 document = "gestion-club-padel"
 sheet = "reservas"
-credentials = st.secrets["sheets"]["credential_sheet"]
+credentials = st.secrets["google"]["credential_google"]
 
 # Funciones
 def validate_email(email):
