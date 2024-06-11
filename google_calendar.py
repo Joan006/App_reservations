@@ -3,6 +3,7 @@ from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import streamlit as st
+from datetime import datetime
 
 class GoogleCalendar:
     def __init__(self, credentials, idcalendar):
@@ -35,6 +36,28 @@ class GoogleCalendar:
         return create_event
 
 
+    def get_events(self, date=None):
+        if not date:
+            events = self.service.events().list(calendarId=self.idcalendar).excute()
+        else:
+            start_date = f"{date}T00:00:00Z"
+            end_date = f"{date}T23:59:00Z"
+            events =self.service.events().list(calendarId=self.idcalendar, timeMin= start_date, timeMax= end_date).execute()
+
+        return events.get('items', [])
+
+    def get_events_start_time(self, date):
+        events = self.get_events(date)
+        start_times = []
+
+        for event in events:
+            start_time = event["start"]["dateTime"]
+            parsed_start_time = datetime.fromisoformat(start_time[:-6])
+            hours_minutes = parsed_start_time.strftime("%H:%M")
+            start_times.append(hours_minutes)
+        return start_times
+
+
 # Prueba de creacion de evento en calendario
 #credentials = st.secrets["google"]["credential_google"]
 #id_calendar = "martinez.olivares.006@gmail.com"
@@ -43,4 +66,7 @@ class GoogleCalendar:
 #end_time = '2024-06-05T17:00:00-07:00'
 #time_zone = 'America/Los_Angeles'
 #attendes = ''
-#google_calendar.create_event("partido padel", start_time, end_time, time_zone, attendes)
+##google_calendar.create_event("partido padel", start_time, end_time, time_zone, attendes)
+#date = "2024-06-05"
+#int_ho = google_calendar.get_events_start_time(date)
+#print(int_ho)

@@ -1,9 +1,12 @@
+from pandas._libs.tslibs import ccalendar
 import streamlit as st
 from streamlit_option_menu import option_menu
 from send_email import send
 from google_sheets import GoogleSheets
+from google_calendar import GoogleCalendar
 import re
 import uuid
+import numpy as np
 
 # Variables
 page_title = "Club de padel"
@@ -16,6 +19,7 @@ pistas = ["Pista 1", "Pista2"]
 document = "gestion-club-padel"
 sheet = "reservas"
 credentials = st.secrets["google"]["credential_google"]
+id_calendar = "martinez.olivares.006@gmail.com"
 
 # Funciones
 def validate_email(email):
@@ -76,6 +80,11 @@ else:
     nombre = c1.text_input("Tu nombre*")
     email = c2.text_input("Tu email*")
     fecha =  c1.date_input("Feccha*")
+    if fecha:
+        calendar = GoogleCalendar(credentials, id_calendar)
+        hours_blocked = calendar.get_events_start_time(str(fecha))
+        result_hours = np.setdiff1d(horas, hours_blocked)
+
     hora =  c2.selectbox("Hora", horas)
     pista =  c1.selectbox("Pista", pistas)
     notas = c2.text_area("Notas", placeholder="Opcional")
